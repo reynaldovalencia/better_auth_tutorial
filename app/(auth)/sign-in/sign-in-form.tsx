@@ -16,6 +16,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { auth } from "@/lib/auth";
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
@@ -74,7 +75,19 @@ export function SignInForm() {
   }
 
   async function handleSocialSignIn(provider: "google" | "github") {
-    // TODO: Handle social sign in
+    setError(null);
+    setLoading(true);
+
+    const { error } = await authClient.signIn.social({
+      provider,
+      callbackURL: "/dashboard",
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setError(error.message || "Something went wrong. Please try again.");
+    }
   }
 
   return (

@@ -25,7 +25,7 @@ import { z } from "zod";
 const signUpSchema = z
   .object({
     name: z.string().min(1, { message: "Name is required" }),
-    email: z.string().email({ message: "Please enter a valid email" }),
+    email: z.email({ message: "Please enter a valid email" }),
     password: passwordSchema,
     passwordConfirmation: z
       .string()
@@ -71,7 +71,7 @@ export function SignUpForm() {
         setError(error.message || "Something went wrong");
       } else {
         toast.success(
-          "Signed up successfully! Please check your email to verify your account."
+          "Signed up successfully! Please check your email to verify your account.",
         );
         router.push("/dashboard");
       }
