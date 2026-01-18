@@ -4,6 +4,7 @@ import { LoadingButton } from "@/components/loading-button";
 import { PasswordInput } from "@/components/password-input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
+import { authClient } from "@/lib/auth-client";
 import { passwordSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
@@ -26,6 +27,7 @@ export function PasswordForm() {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<UpdatePasswordValues>({
     resolver: zodResolver(updatePasswordSchema),
@@ -41,7 +43,19 @@ export function PasswordForm() {
   }: UpdatePasswordValues) {
     setStatus(null);
     setError(null);
-    // TODO: Handle password update
+
+    const { error } = await authClient.changePassword({
+      currentPassword,
+      newPassword,
+      revokeOtherSessions: true,
+    });
+
+    if (error) {
+      setError(error.message || "Failed to change password");
+    } else {
+      setStatus("Password changed successfully");
+      reset();
+    }
   }
 
   return (
