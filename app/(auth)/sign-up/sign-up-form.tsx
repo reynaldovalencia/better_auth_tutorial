@@ -12,12 +12,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; // Standard shadcn label
+import { authClient } from "@/lib/auth-client";
 import { passwordSchema } from "@/lib/validation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-//import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 
 const signUpSchema = z
@@ -38,7 +40,7 @@ type SignUpValues = z.infer<typeof signUpSchema>;
 
 export function SignUpForm() {
   const [error, setError] = useState<string | null>(null);
-  //const router = useRouter();
+  const router = useRouter();
 
   const {
     register,
@@ -58,8 +60,21 @@ export function SignUpForm() {
   async function onSubmit({ email, password, name }: SignUpValues) {
     setError(null);
     try {
-      // TODO: Handle sign up logic
-      console.log({ email, password, name });
+      const { error } = await authClient.signUp.email({
+        email,
+        password,
+        name,
+        callbackURL: "/email-veried",
+      });
+
+      if (error) {
+        setError(error.message || "Something went wrong");
+      } else {
+        toast.success(
+          "Signed up successfully! Please check your email to verify your account."
+        );
+        router.push("/dashboard");
+      }
     } catch (error) {
       setError("Something went wrong");
       console.error(error);
