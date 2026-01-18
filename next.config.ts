@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   // eslint: {
   //   ignoreDuringBuilds: true,
   // },
+  //Para que cargue las imagenes de los avatares de google y github
   images: {
     remotePatterns: [
       {
