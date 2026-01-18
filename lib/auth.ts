@@ -9,6 +9,14 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    // requireEmailVerification: true, //Only if you want to block login completely until email is verified
+    async sendResetPassword({ user, url }) {
+      await sendEmail({
+        to: user.email!,
+        subject: "Reset your password",
+        text: `Click the link to reset your password: ${url}`,
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
