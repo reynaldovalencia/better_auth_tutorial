@@ -41,6 +41,8 @@ export function SignInForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const redirect = searchParams.get("redirect");
+
   const {
     register,
     handleSubmit,
@@ -70,7 +72,7 @@ export function SignInForm() {
       return;
     } else {
       toast.success("Successfully signed in!");
-      router.push("/dashboard");
+      router.push(redirect ?? "/dashboard"); //Para redirigir a la pagina que estabamos visitando
     }
   }
 
@@ -80,7 +82,7 @@ export function SignInForm() {
 
     const { error } = await authClient.signIn.social({
       provider,
-      callbackURL: "/dashboard",
+      callbackURL: redirect ?? "/dashboard", //Para redirigir a la pagina que estabamos visitando
     });
 
     setLoading(false);
