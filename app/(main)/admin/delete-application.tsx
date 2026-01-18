@@ -14,7 +14,7 @@ export function DeleteApplication() {
         await deleteApplication();
         toast.success("Application deletion authorized successfully");
       } catch (error) {
-        console.error(error);
+        //console.error(error);
         toast.error("Something went wrong");
       }
     });

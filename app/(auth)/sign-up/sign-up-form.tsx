@@ -77,7 +77,7 @@ export function SignUpForm() {
       }
     } catch (error) {
       setError("Something went wrong");
-      console.error(error);
+      //console.error(error);
     }
   }
 
