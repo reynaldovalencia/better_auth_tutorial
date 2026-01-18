@@ -43,6 +43,17 @@ export const auth = betterAuth({
   },
   //Con esto detecta el campo role de la tabla users
   user: {
+    //Para cambiar el email en Profile
+    changeEmail: {
+      enabled: true,
+      async sendChangeEmailVerification({ user, newEmail, url }) {
+        await sendEmail({
+          to: user.email,
+          subject: "Approve your email change",
+          text: `Your email has been changed to: ${newEmail}. Click the link to confirm: ${url}`,
+        });
+      },
+    },
     additionalFields: {
       role: {
         type: "string",
