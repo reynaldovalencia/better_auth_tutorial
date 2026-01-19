@@ -10,7 +10,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { set, z } from "zod";
+import { z } from "zod";
 
 const resetPasswordSchema = z.object({
   newPassword: passwordSchema,
@@ -50,7 +50,9 @@ export function ResetPasswordForm({ token }: ResetPasswordFormProps) {
     if (error) {
       setError(error.message || "Something went wrong. Please try again.");
     } else {
-      setSuccess("Your password has been reset successfully.");
+      setSuccess(
+        "Your password has been reset successfully. You can now sign in.",
+      );
       setTimeout(() => {
         router.push("/sign-in");
       }, 3000);

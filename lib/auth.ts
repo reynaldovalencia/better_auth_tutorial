@@ -9,6 +9,7 @@ export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
+  //Para autenticar con Google o GitHub
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -22,6 +23,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     // requireEmailVerification: true, //Only if you want to block login completely until email is verified
+    //Esto es si olvido su password
     async sendResetPassword({ user, url }) {
       await sendEmail({
         to: user.email!,
@@ -61,7 +63,7 @@ export const auth = betterAuth({
       },
     },
   },
-  //Hacer mas seguro el password, this is reinforced server-side
+  //Hacer mas seguro el password, this is reinforced server-side the same validations as the client-side with zod
   hooks: {
     before: createAuthMiddleware(async (ctx) => {
       if (

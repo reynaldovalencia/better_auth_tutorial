@@ -10,6 +10,7 @@ export default async function AuthLayout({
   const session = await getServerSession();
   const user = session?.user;
 
+  //Si ya esta logueado, redirigir al dashboard
   if (user) redirect("/dashboard");
 
   return children;

@@ -34,6 +34,7 @@ export function ForgotPasswordForm() {
     setSuccess(null);
     setError(null);
 
+    //Si olvido password
     const { error } = await authClient.requestPasswordReset({
       email,
       redirectTo: "/reset-password",
