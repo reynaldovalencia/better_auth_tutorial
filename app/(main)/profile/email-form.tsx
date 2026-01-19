@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"; // Standard shadcn label or HTML label
 import { authClient } from "@/lib/auth-client";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -24,9 +23,6 @@ interface EmailFormProps {
 export function EmailForm({ currentEmail }: EmailFormProps) {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  //Esto lo puse yo
-  const router = useRouter();
 
   // Destructure register and formState directly for cleaner code
   const {
@@ -53,7 +49,6 @@ export function EmailForm({ currentEmail }: EmailFormProps) {
       setError(error.message || "Failed to initiate email change");
     } else {
       setStatus("Verification email sent to your current address");
-      router.refresh(); // Esto lo puse yo
     }
   }
 
