@@ -48,7 +48,7 @@ export const auth = betterAuth({
     //Para cambiar el email en Profile
     changeEmail: {
       enabled: true,
-      async sendChangeEmailVerification({ user, newEmail, url }) {
+      sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
         await sendEmail({
           to: user.email,
           subject: "Approve your email change",
